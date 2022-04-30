@@ -1,12 +1,14 @@
 # Node.js（17.5.0）は2022‑01‑18リリース
 # vue createなどでエラーとなった場合は最新版に設定しなおす
-FROM node:17.5.0-stretch-slim
+FROM --platform=linux/amd64 node:17.5.0-stretch-slim
 
 ENV LANG C.UTF-8
 ENV TZ Asia/Tokyo
 
 WORKDIR /app
+COPY ./app /app
 
+RUN apt update && apt install -y procps
 RUN yarn global add @vue/cli @vue/cli-init
 
 

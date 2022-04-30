@@ -3,7 +3,7 @@ export let axios;
 export default {
     install(app) {
         // base url
-        app.config.globalProperties.$http.defaults.baseURL = 'http://localhost:3000'
+        app.config.globalProperties.$http.defaults.baseURL = 'https://backend.cicd-dev-stg.naona.cloud'
         
         // request interceptor
         app.config.globalProperties.$http.interceptors.request.use(config => {

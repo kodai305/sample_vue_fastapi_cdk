@@ -12,13 +12,16 @@ app.add_middleware(
     allow_headers=['*']
 )
 
+@app.get("/")
+def index0():
+    return {"message": "index"}
 
-@app.get("/api/hoge")
+@app.get("/hoge")
 def index1():
     return {"message": "hogehoge"}
 
 
-@app.get("/api/fuga")
+@app.get("/fuga")
 def index2():
     return {"message": "fugafuga"}
 
@@ -29,5 +32,5 @@ if __name__ == "__main__":
         app="main:app",
         host="0.0.0.0",
         reload=True,
-        port=3000,
+        port=80,
         log_level="debug",)

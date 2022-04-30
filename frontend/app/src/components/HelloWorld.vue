@@ -1,17 +1,21 @@
 <template>
   <div class="hello">
     <h1>Hello World {{ message }}</h1>
+    <h2>
+      環境変数: {{ str }}
+    </h2>
   </div>
 </template>
 
 <script>
-import { axios } from "/app/plugins/axios";
+import { axios } from "/plugins/axios";
 
 export default {
   components: {},
   data() {
     return {
       message: "",
+      str: ""
     };
   },
   mounted() {
@@ -19,11 +23,12 @@ export default {
     this.get_hoge().then((response) => {
       this.message = response.data.message;
     });
+    this.str = process.env.VUE_APP_NEXT_PUBLIC_API_BASE_URL
   },
   methods: {
     //FastAPI(http://localhost:3000/api/hoge)にgetをリクエスト
     get_hoge() {
-      return axios.get("api/fuga");
+      return axios.get("/api/hoge");
     },
   },
 };
