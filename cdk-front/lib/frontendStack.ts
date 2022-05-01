@@ -76,14 +76,14 @@ export class CdkFrontStack extends cdk.Stack {
           ttl: Duration.minutes(5),
         },
       ],
-      domainNames: ['sampleapplication.cicd-dev-stg.naona.cloud'],
+      domainNames: ['sampleapplication.staging.mine.toggle-pf.com'],
       certificate: certificate,      
     });
 
     // Route 53 でレコードを追加
     new route53.ARecord(this, 'Alias', {
       zone: zone,
-      recordName: 'sampleapplication.cicd-dev-stg.naona.cloud',
+      recordName: 'sampleapplication.staging.mine.toggle-pf.com',
       target: route53.RecordTarget.fromAlias(new route53Targets.CloudFrontTarget(distribution)),
     });
 
