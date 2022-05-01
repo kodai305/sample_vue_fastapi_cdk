@@ -44,9 +44,13 @@ export class PipelineStack extends cdk.Stack {
         commands: [
           "cd frontend/app",
           "npm install",
-          "npm run build"
+          "npm run build",
+          "cd ../../cdk-frontend",
+          "npm ci",
+          "npm run build",
+          "npx cdk synth"
         ],
-        primaryOutputDirectory: 'frontend/dist',
+        primaryOutputDirectory: 'cdk-frontend',
       }),
     });
 
