@@ -42,10 +42,11 @@ export class PipelineStack extends cdk.Stack {
           authentication: cdk.SecretValue.secretsManager('github-token'),
         }),
         commands: [
-          "cd frontend/app",
-          "npm install",
+          "cd cdk-frontend",
+          "npm ci",
           "npm run build"
         ],
+        primaryOutputDirectory: 'cdk-front/cdk.out',
       }),
     });
 
