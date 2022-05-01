@@ -43,18 +43,17 @@ export class PipelineStack extends cdk.Stack {
         }),
         commands: [
           "cd frontend/app",
-          "ls",
-          "npm ci",
+          "npm install",
           "npm run build"
         ],
       }),
     });
 
     // ステージングへのデプロイ
-    //const staging = new AppStage(
-    //  app, 'Staging', props.stagingDeployConfig
-    //);
-    //const stagingStage = pipeline.addStage(staging);
+    const staging = new AppStage(
+      app, 'Staging', props.stagingDeployConfig
+    );
+    const stagingStage = pipeline.addStage(staging);
 
     /*
     // スモークテスト
