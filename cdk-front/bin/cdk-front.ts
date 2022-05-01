@@ -11,7 +11,7 @@ new PipelineStack(app, `CdkFrontStack`, {
       region: "ap-northeast-1",
       account: '361854753178'
     },
-    stackName: 'naonaapp-stg-infrastack',
+    stackName: 'sampleapp-stg-infrastack',
     appConfig: {
       baseDomainName: 'staging.mine.toggle-pf.com',
       hostedZoneId: 'Z0027987VXSPGRROHS3A',
@@ -24,11 +24,11 @@ new PipelineStack(app, `CdkFrontStack`, {
       region: 'ap-northeast-1',
       account: '735205523900'
     },
-    stackName: 'naonaapp-prd-infrastack',
+    stackName: 'sampleapp-prd-infrastack',
     appConfig: {
-      baseDomainName: 'naona.cloud',
-      hostedZoneId: 'Z0027987VXSPGRROHS3A',
-      domainName: 'sampleapplication.staging.mine.toggle-pf.com',
+      baseDomainName: 'toggle-pf.com',
+      hostedZoneId: 'Z0059839IPFJ7TFOFCQH',
+      domainName: 'sampleapplication.mine.toggle-pf.com',
       appEnv: 'prd',
     },
   }  
