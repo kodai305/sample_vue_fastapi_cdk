@@ -13,8 +13,9 @@ new PipelineStack(app, `CdkFrontStack`, {
     },
     stackName: 'naonaapp-stg-infrastack',
     appConfig: {
-      baseDomainName: 'staging.naona.cloud',
-      certificateArn: 'arn:aws:acm:us-east-1:361854753178:certificate/7691d0ba-c676-41b4-b28a-633616de9567',
+      baseDomainName: 'staging.mine.toggle-pf.com',
+      hostedZoneId: 'Z0027987VXSPGRROHS3A',
+      domainName: 'sampleapplication.staging.mine.toggle-pf.com',
       appEnv: 'stg',
     },
   },
@@ -26,7 +27,8 @@ new PipelineStack(app, `CdkFrontStack`, {
     stackName: 'naonaapp-prd-infrastack',
     appConfig: {
       baseDomainName: 'naona.cloud',
-      certificateArn: 'arn:aws:acm:us-east-1:735205523900:certificate/6f88d0b6-ed88-4e64-9184-186c9456bd38',
+      hostedZoneId: 'Z0027987VXSPGRROHS3A',
+      domainName: 'sampleapplication.staging.mine.toggle-pf.com',
       appEnv: 'prd',
     },
   }  

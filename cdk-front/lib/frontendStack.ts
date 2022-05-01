@@ -1,32 +1,16 @@
-import { RemovalPolicy, Stack, StackProps } from 'aws-cdk-lib';
-import * as constructs from 'constructs';
+import { RemovalPolicy, StackProps } from 'aws-cdk-lib';
 import { Construct } from 'constructs';
-import ec2 = require('aws-cdk-lib/aws-ec2');
-import ecs = require('aws-cdk-lib/aws-ecs');
-import { aws_iam as iam } from 'aws-cdk-lib';
 import * as route53 from 'aws-cdk-lib/aws-route53';
 import * as route53Targets from 'aws-cdk-lib/aws-route53-targets';
-import * as elb from "aws-cdk-lib/aws-elasticloadbalancingv2";
 import * as cdk from 'aws-cdk-lib';
 import * as acm from 'aws-cdk-lib/aws-certificatemanager';
 import { aws_s3,aws_s3_deployment} from 'aws-cdk-lib';
 import {aws_cloudfront,aws_cloudfront_origins,Duration} from 'aws-cdk-lib';
 
-// For ECS Exec
-/*
-class EnableExecuteCommand implements cdk.IAspect {
-  public visit(node: constructs.IConstruct): void {
-    if (node instanceof ecs.CfnService) {
-      node.addOverride('Properties.EnableExecuteCommand', true);
-    }
-  }
-}
-*/
-
 export type AppConfig = {
   baseDomainName: string;
-  // hostedZoneId: string;
-  certificateArn: string;
+  hostedZoneId: string;
+  domainName: string;
   appEnv: 'stg' | 'prd';
 }
 
@@ -35,18 +19,21 @@ export interface AppStackProps extends StackProps {
 }
 
 export class CdkFrontStack extends cdk.Stack {
-  constructor(scope: Construct, id: string, props?: cdk.StackProps) {
+  constructor(scope: Construct, id: string, props?: AppStackProps) {
     super(scope, id, props);
 
     // Route53
+    const baseDomainName = props?.appConfig.baseDomainName ? props?.appConfig.baseDomainName : '';
+    const hostZoneId = props?.appConfig.hostedZoneId ? props?.appConfig.hostedZoneId : '';
     const zone = route53.HostedZone.fromHostedZoneAttributes(this, 'MyZone', {
-      hostedZoneId: 'Z0027987VXSPGRROHS3A',
-      zoneName: 'staging.mine.toggle-pf.com'
+      hostedZoneId: hostZoneId,
+      zoneName: baseDomainName
     }); 
 
     // ACM (us-east-1)
+    const domainName = props?.appConfig.domainName ? props?.appConfig.domainName : '';
     const certificate = new acm.DnsValidatedCertificate(this, 'CrossRegionCertificate', {
-      domainName: 'sampleapplication.staging.mine.toggle-pf.com',
+      domainName: domainName,
       hostedZone: zone,
       region: 'us-east-1',
     });
@@ -76,14 +63,14 @@ export class CdkFrontStack extends cdk.Stack {
           ttl: Duration.minutes(5),
         },
       ],
-      domainNames: ['sampleapplication.staging.mine.toggle-pf.com'],
+      domainNames: [domainName],
       certificate: certificate,      
     });
 
     // Route 53 でレコードを追加
     new route53.ARecord(this, 'Alias', {
       zone: zone,
-      recordName: 'sampleapplication.staging.mine.toggle-pf.com',
+      recordName: domainName,
       target: route53.RecordTarget.fromAlias(new route53Targets.CloudFrontTarget(distribution)),
     });
 
