@@ -40,13 +40,13 @@ export class CdkFrontStack extends cdk.Stack {
 
     // Route53
     const zone = route53.HostedZone.fromHostedZoneAttributes(this, 'MyZone', {
-      hostedZoneId: 'Z0220368H4ODJ2Z2EZ79',
-      zoneName: 'cicd-dev-stg.naona.cloud'
+      hostedZoneId: 'Z0027987VXSPGRROHS3A',
+      zoneName: 'staging.mine.toggle-pf.com'
     }); 
 
     // ACM (us-east-1)
     const certificate = new acm.DnsValidatedCertificate(this, 'CrossRegionCertificate', {
-      domainName: 'sampleapplication.cicd-dev-stg.naona.cloud',
+      domainName: 'sampleapplication.staging.mine.toggle-pf.com',
       hostedZone: zone,
       region: 'us-east-1',
     });
