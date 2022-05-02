@@ -91,7 +91,7 @@ export class PipelineStack extends cdk.Stack {
       app, 'Production', props.productionDeployConfig
     );
     const productionStage = pipeline.addStage(production);
-    //productionStage.addPre(new ManualApprovalStep('approval'));
+    productionStage.addPre(new ManualApprovalStep('approval'));
     
     /*
     // スモークテスト
