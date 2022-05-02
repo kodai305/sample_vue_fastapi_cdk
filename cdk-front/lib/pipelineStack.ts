@@ -2,7 +2,7 @@
 import { BuildEnvironmentVariableType } from "@aws-cdk/aws-codebuild";
 import * as cdk from 'aws-cdk-lib';
 import { AppConfig, CdkFrontStack } from "./frontendStack";
-import { CodePipeline, ShellStep, CodePipelineSource } from "aws-cdk-lib/pipelines";
+import { CodePipeline, ShellStep, CodePipelineSource, ManualApprovalStep } from "aws-cdk-lib/pipelines";
 import { CodeCommitSourceAction, ManualApprovalAction } from "@aws-cdk/aws-codepipeline-actions";
 import { SecretValue } from "@aws-cdk/core";
 import { AppStage } from "./appStage";
@@ -88,13 +88,17 @@ export class PipelineStack extends cdk.Stack {
     });
     releaseApprovalStage.addActions(releaseApprovalAction);
     */
+    const approvalAction = new ManualApprovalAction({
+      actionName: 'Approval',
+    });
 
     // Deploy to Production
     const production = new AppStage(
       app, 'Production', props.productionDeployConfig
     );
     const productionStage = pipeline.addStage(production);
-
+    productionStage.addPre((new ManualApprovalStep('approval'))
+    
     /*
     // スモークテスト
     // TODO ここでは URL にアクセスできることしか確認してない
