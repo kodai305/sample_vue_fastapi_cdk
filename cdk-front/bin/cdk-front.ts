@@ -22,7 +22,7 @@ new PipelineStack(app, `CdkFrontStack`, {
   productionDeployConfig: {
     env: {
       region: 'ap-northeast-1',
-      account: '735205523900'
+      account: '716993826013'
     },
     stackName: 'sampleapp-prd-infrastack',
     appConfig: {

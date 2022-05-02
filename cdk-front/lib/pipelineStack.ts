@@ -78,9 +78,6 @@ export class PipelineStack extends cdk.Stack {
     */
 
     // リリース承認
-    //
-    // 7 日以内に承認しないと自動で失敗扱いに
-    // https://docs.aws.amazon.com/ja_jp/codepipeline/latest/userguide/approvals.html
     /*
     const releaseApprovalStage = pipeline.addStage('ReleaseApproval');
     const releaseApprovalAction = new ManualApprovalAction({
@@ -88,16 +85,13 @@ export class PipelineStack extends cdk.Stack {
     });
     releaseApprovalStage.addActions(releaseApprovalAction);
     */
-    const approvalAction = new ManualApprovalAction({
-      actionName: 'Approval',
-    });
 
     // Deploy to Production
     const production = new AppStage(
       app, 'Production', props.productionDeployConfig
     );
     const productionStage = pipeline.addStage(production);
-    productionStage.addPre(new ManualApprovalStep('approval'));
+    //productionStage.addPre(new ManualApprovalStep('approval'));
     
     /*
     // スモークテスト
