@@ -78,6 +78,7 @@ export class CdkFrontStack extends cdk.Stack {
     new aws_s3_deployment.BucketDeployment(this,'deployreactApp',{
       sources: [aws_s3_deployment.Source.asset('../frontend/app/dist')],
       destinationBucket: buildBucket,
+      distribution: distribution
     });    
   }
 }
